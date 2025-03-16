@@ -53,8 +53,10 @@ aiip5-NAME-NRIC/
    - These settings can be modified in the `config.py` file
 
 ## Pipeline Flow
-![Description of image](images/flowchart.png)
-*Figure 1: Flowchart of Pipeline*
+<p align="center">
+  <img src="images/flowchart.png" width="70%">
+</p>
+<p align="center"><em>Figure 1: Flowchart of Pipeline</em></p>
 
 1. **Data Loading and Preprocessing:**
    - Load data from the SQLite database
@@ -81,8 +83,10 @@ aiip5-NAME-NRIC/
 The exploratory data analysis revealed several important insights that informed the pipeline design:
 
 1. **Feature Correlations:**
-![Description of image](images/correlation_heatmap.png)
-*Figure 2: Correlation heatmap showing relationships between environmental variables*
+<p align="center">
+  <img src="images/correlation_heatmap.png" width="100%">
+</p>
+<p align="center"><em>Figure 2: Correlation heatmap showing relationships between environmental variables</em></p>
    - The correlation heatmap showed relatively weak linear relationships between most features and the temperature target
    - Strongest correlations were found between:
      - Nutrient sensors (N, P, K) showed moderate correlations with each other
@@ -96,8 +100,10 @@ The exploratory data analysis revealed several important insights that informed 
    - These relationships supported the hypothesis that different plant types and stages require different optimal temperatures
 
 3. **Cluster Analysis:**
-![Description of image](images/temp_dist.png)
-*Figure 3: Temperature Distribution by Cluster*
+<p align="center">
+  <img src="images/temp_dist.png" width="100%">
+</p>
+<p align="center"><em>Figure 3: Temperature Distribution by Cluster</em></p>
    - K-means clustering revealed distinct environmental patterns
    - Temperature distributions varied significantly across clusters
    - Cluster membership provided valuable information for both prediction tasks
