@@ -24,7 +24,7 @@ class TemperatureModel:
         'Cluster_2'
     ]
 
-    # Default hyperparameters
+    # Default hyperparameters for XGBoost
     PARAMS = {
         'n_estimators': 100,
         'learning_rate': 0.1,
@@ -32,15 +32,31 @@ class TemperatureModel:
         'random_state': 42
     }
 
-    # Hyperparameter search space
+    # Hyperparameter search space for XGBoost
     PARAM_GRID = {
         'n_estimators': [50, 100, 200],
         'learning_rate': [0.01, 0.05, 0.1, 0.2],
         'max_depth': [3, 6, 9]
     }
 
-    # Model file path
+    # Default hyperparameters for Random Forest
+    RF_PARAMS = {
+        'n_estimators': 100,
+        'max_depth': None,
+        'random_state': 42
+    }
+
+    # Hyperparameter search space for Random Forest
+    RF_PARAM_GRID = {
+        'n_estimators': [50, 100, 200],
+        'max_depth': [None, 10, 20, 30],
+        'min_samples_split': [2, 5, 10],
+        'max_features': ['sqrt', 'log2', None]
+    }
+
+    # Model file paths
     MODEL_PATH = 'src/models/temperature_model.joblib'
+    RF_MODEL_PATH = 'src/models/temperature_rf_model.joblib'
 
 
 class ClassificationModel:
@@ -61,13 +77,13 @@ class ClassificationModel:
         'Cluster_1'
     ]
 
-    # Default hyperparameters
+    # Default hyperparameters for Random Forest
     PARAMS = {
         'n_estimators': 100,
         'random_state': 42
     }
 
-    # Hyperparameter search space
+    # Hyperparameter search space for Random Forest
     PARAM_GRID = {
         'n_estimators': [50, 100, 200],
         'max_depth': [None, 10, 20, 30],
@@ -75,8 +91,23 @@ class ClassificationModel:
         'class_weight': ['balanced', 'balanced_subsample']
     }
 
-    # Model file path
+    # Default hyperparameters for SVM
+    SVM_PARAMS = {
+        'C': 1.0,
+        'kernel': 'rbf',
+        'random_state': 42
+    }
+
+    # Hyperparameter search space for SVM
+    SVM_PARAM_GRID = {
+        'C': [0.1, 1, 10, 100],
+        'kernel': ['linear', 'rbf', 'poly'],
+        'gamma': ['scale', 'auto', 0.1, 0.01]
+    }
+
+    # Model file paths
     MODEL_PATH = 'src/models/plant_typestage_model.joblib'
+    SVM_MODEL_PATH = 'src/models/plant_typestage_svm_model.joblib'
 
 
 class Training:
@@ -91,3 +122,6 @@ class Training:
     # Enable/disable hyperparameter tuning and plotting
     ENABLE_HYPERPARAMETER_TUNING = True
     SHOW_PLOTS = False
+
+    # Compare multiple models
+    COMPARE_MODELS = True
