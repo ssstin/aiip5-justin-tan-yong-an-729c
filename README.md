@@ -54,7 +54,7 @@ aiip5-NAME-NRIC/
 
 ## Pipeline Flow
 <p align="center">
-  <img src="images/flowchart.png" width="70%">
+  <img src="images/flowchart.png" width="30%">
 </p>
 <p align="center"><em>Figure 1: Flowchart of Pipeline</em></p>
 
