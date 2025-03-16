@@ -33,6 +33,7 @@ src/models/
 venv/
 ENV/
 env/
+myenv/
 
 # Data files
 *.csv

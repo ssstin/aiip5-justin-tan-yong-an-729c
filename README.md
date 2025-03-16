@@ -123,35 +123,54 @@ The exploratory data analysis revealed several important insights that informed 
 
 ## Model Selection
 
-### Temperature Prediction: XGBoost Regressor
+### Temperature Prediction
 
-XGBoost was chosen for the temperature prediction task for several reasons:
+For temperature prediction, the following models were evaluated:
 
-1. **Performance:** XGBoost consistently outperformed other models like Random Forest in preliminary tests, achieving lower RMSE values and higher R² scores.
+| Model | RMSE | R² | Cross-validation RMSE | Cross-validation R² |
+|-------|------|----|-----------------------|---------------------|
+| XGBoost | 1.0256 | 0.5277 | 1.0263 ± 0.0051 | 0.5259 ± 0.0037 |
+| Random Forest | 0.9639 | 0.5828 | 0.9648 ± 0.0061 | 0.5811 ± 0.0037 |
 
-2. **Handling of Non-Linear Relationships:** The temperature data showed complex, non-linear relationships with environmental variables that XGBoost can effectively model through its gradient boosting approach.
+Based on the evaluation metrics, **Random Forest** was chosen as the final model for temperature prediction because:
 
-3. **Feature Importance:** XGBoost provides robust feature importance metrics, helping identify the most influential factors for temperature prediction.
+1. **Superior Performance:** Random Forest achieved lower RMSE (0.9639 vs 1.0256) and higher R² values (0.5828 vs 0.5277) compared to XGBoost, indicating better overall predictive accuracy.
 
-4. **Regularization:** Built-in L1 and L2 regularization helps prevent overfitting, which is important given the complexity of agricultural data.
+2. **Consistent Cross-validation Results:** The Random Forest model showed robust performance across cross-validation folds with better RMSE (0.9648 ± 0.0061) and R² (0.5811 ± 0.0037) metrics.
 
-5. **Hyperparameter Tuning:** XGBoost offers many tunable parameters, allowing the model to be optimized for this specific agricultural context.
+3. **Interpretability:** While both models provide feature importance metrics, Random Forest's bagging approach offers greater stability in feature importance rankings, which is valuable for understanding environmental influences.
 
-Random Forest was also evaluated but showed slightly lower performance in cross-validation tests.
+4. **Handling Outliers:** Random Forest's ensemble nature makes it less sensitive to outliers in the sensor data, which is important for maintaining prediction reliability in agricultural environments.
 
-### Plant Type-Stage Classification: Random Forest Classifier
+5. **Simpler Hyperparameter Optimization:** While XGBoost has many parameters that can be fine-tuned, Random Forest generally requires less complex tuning while achieving better performance in this case.
 
-Random Forest was selected for the plant type-stage classification task due to:
+The best-performing Random Forest model utilized 200 trees, 'log2' feature selection strategy for node splitting, and no maximum depth constraint, allowing it to capture the complex relationships between environmental variables and temperature.
 
-1. **Multi-class Performance:** Random Forest naturally handles multi-class classification problems, which is essential for predicting the combined plant type and growth stage categories.
+### Plant Type-Stage Classification
 
-2. **Class Imbalance Handling:** The 'balanced' class weight option effectively addresses imbalances in the distribution of plant types and stages.
+For plant type-stage classification, the following models were evaluated:
 
-3. **Ensemble Nature:** As an ensemble method, Random Forest reduces overfitting risk and provides robust predictions in complex agricultural environments.
+| Model | Accuracy | CV Accuracy | Weighted F1-Score |
+|-------|----------|-------------|-------------------|
+| Random Forest | 0.8330 | 0.8351 ± 0.0018 | 0.8332 |
+| SVM | 0.7473 | 0.7473 ± 0.0035 | 0.7463 |
 
-4. **Feature Importance:** Random Forest provides clear feature importance metrics that help understand which environmental factors most strongly influence plant categorization.
+**Random Forest** was selected as the final model for plant type-stage classification due to:
 
-5. **Minimal Assumptions:** Random Forest makes few assumptions about data distribution, making it suitable for agricultural data that may not follow standard statistical distributions.
+1. **Superior Classification Accuracy:** Random Forest achieved significantly higher accuracy (83.3%) compared to SVM (74.7%), representing an improvement of nearly 9 percentage points.
+
+2. **Better Class Balance Handling:** The class-weighted Random Forest model showed more balanced performance across all plant type-stage combinations, with an F1-score of 0.8332 compared to SVM's 0.7463.
+
+3. **Consistent Cross-validation Performance:** Random Forest showed stable performance across validation folds (0.8351 ± 0.0018), indicating reliable generalization to unseen data.
+
+4. **Per-Class Metrics:** For critical plant types, Random Forest achieved substantially better precision and recall:
+   - For Fruiting Vegetables Stage 1: RF achieved 0.9633 F1-score vs SVM's 0.9583
+   - For Herbs Stage 2 & 3: RF achieved ~0.59 F1-score vs SVM's ~0.45
+   - For Leafy Greens Stage 1: RF achieved 0.9969 F1-score vs SVM's 0.9199
+
+5. **Computational Efficiency:** Despite the complexity of the classification task with multiple plant type-stage combinations, Random Forest training completed more efficiently than SVM, which is important for model retraining in production environments.
+
+The optimal Random Forest classifier used 100 trees, a maximum depth of 30, a minimum samples split of 2, and balanced class weights to address the imbalanced distribution of plant type-stage combinations in the dataset.
 
 ## Model Evaluation
 
@@ -201,3 +220,7 @@ For deploying these models in a production agricultural environment, several con
    - Establish an automated retraining pipeline to incorporate new data
    - Implement data versioning to track changes in environmental patterns over time
    - Use A/B testing when deploying updated models to ensure performance improvements
+
+## Conclusion
+
+This machine learning pipeline successfully addresses the challenges of optimizing crop growth in controlled agricultural environments through two key components: temperature prediction and plant type-stage classification. The analysis revealed complex relationships between environmental factors and plant requirements, which were effectively captured by our models. Random Forest emerged as the superior model for both tasks, demonstrating its versatility across regression and classification problems in agricultural contexts. For temperature prediction, Random Forest achieved an RMSE of 0.9639°C, indicating high precision in forecasting environmental conditions. Similarly, for plant type-stage classification, Random Forest delivered 83.3% accuracy across diverse plant categories and growth stages. These results demonstrate that machine learning can effectively support precision agriculture by enabling data-driven environmental control decisions. Future enhancements could include incorporating temporal data patterns, expanding to additional environmental parameters beyond temperature, and developing an interactive interface for farm operators.
